@@ -1,0 +1,268 @@
+[
+  {
+    "spawnTime": 0.2,
+    "spawnPoints": [
+      {
+        "x": -8,
+        "y": 2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 0.42,
+    "spawnPoints": [
+      {
+        "x": 8,
+        "y": 2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 0.66,
+    "spawnPoints": [
+      {
+        "x": -6,
+        "y": 2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 0.9,
+    "spawnPoints": [
+      {
+        "x": 6,
+        "y": 2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 1.15,
+    "spawnPoints": [
+      {
+        "x": -4,
+        "y": 2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 1.35,
+    "spawnPoints": [
+      {
+        "x": 4,
+        "y": 2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 1.7,
+    "spawnPoints": [
+      {
+        "x": 0,
+        "y": 2.5
+      },
+      {
+        "x": -9.5,
+        "y": -2.5
+      },
+      {
+        "x": 9.5,
+        "y": -2.5
+      },
+      {
+        "x": 0,
+        "y": -8.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 2.3,
+    "spawnPoints": [
+      {
+        "x": -8,
+        "y": -8.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 2.55,
+    "spawnPoints": [
+      {
+        "x": 8,
+        "y": -8.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 2.8,
+    "spawnPoints": [
+      {
+        "x": -6,
+        "y": -8.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 3.05,
+    "spawnPoints": [
+      {
+        "x": 6,
+        "y": -8.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 3.3,
+    "spawnPoints": [
+      {
+        "x": -4,
+        "y": -8.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 3.65,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": 2
+      },
+      {
+        "x": -9.5,
+        "y": -8.5
+      },
+      {
+        "x": 9.5,
+        "y": -8.5
+      },
+      {
+        "x": 9.5,
+        "y": 2
+      }
+    ]
+  },
+  {
+    "spawnTime": 4.25,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": 0.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 4.5,
+    "spawnPoints": [
+      {
+        "x": 9.5,
+        "y": -7
+      }
+    ]
+  },
+  {
+    "spawnTime": 4.7,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": -1
+      }
+    ]
+  },
+  {
+    "spawnTime": 4.95,
+    "spawnPoints": [
+      {
+        "x": 9.5,
+        "y": -5.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 5.2,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": -2.5
+      },
+      {
+        "x": 9.5,
+        "y": -4
+      }
+    ]
+  },
+  {
+    "spawnTime": 5.55,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": -4
+      },
+      {
+        "x": 9.5,
+        "y": -2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 6.15,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": -4
+      }
+    ]
+  },
+  {
+    "spawnTime": 6.4,
+    "spawnPoints": [
+      {
+        "x": 9.5,
+        "y": -2.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 6.65,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": -5.5
+      }
+    ]
+  },
+  {
+    "spawnTime": 6.9,
+    "spawnPoints": [
+      {
+        "x": 9.5,
+        "y": -1
+      }
+    ]
+  },
+  {
+    "spawnTime": 7.1,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": -7
+      }
+    ]
+  },
+  {
+    "spawnTime": 7.35,
+    "spawnPoints": [
+      {
+        "x": 9.5,
+        "y": 0.5
+      }
+    ]
+  },
+  {
+    "spawnTime":7.6,
+    "spawnPoints": [
+      {
+        "x": -9.5,
+        "y": -8.5
+      }
+    ]
+  }
+]
