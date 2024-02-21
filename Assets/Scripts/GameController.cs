@@ -6,6 +6,7 @@ using UnityEngine;
 using MiniJSON;
 using System;
 using UnityEngine.Networking;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -13,21 +14,32 @@ public class GameController : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform[] bulletSpawnPoint;//
-  
+    
     
     private Transform playerTransform;
-    private float[] beatTimes; 
+    public float[] beatTimes; 
     private int nextBeatIndex = 0;
-    public string filePath;
+
+    WaitToStart waitToStart;
+    
     void Start()
     {
-        
+        waitToStart = FindObjectOfType<WaitToStart>();
         beatTimes = new float[] {0.2f, 0.41f, 0.65f,0.9f,1.1f,1.37f};
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(SpawnBullets(beatTimes));
+       
 
     }
-    
+    private void Update()
+    {
+        if(waitToStart.canPlay)
+        {
+            audioSource.Play();
+            StartCoroutine(SpawnBullets(beatTimes));
+            waitToStart.canPlay = false;
+        }
+    }
+
     IEnumerator SpawnBullets(float[] times)
     {
         while (nextBeatIndex < times.Length)
