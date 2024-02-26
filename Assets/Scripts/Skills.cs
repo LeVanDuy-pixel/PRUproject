@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Skills : MonoBehaviour
 {
-    public GameObject ghostCd, shieldCd, player, shield;
+    public GameObject ghostCd, shieldCd, player, shield, speedBoost;
     Vector2 oriScale, oriSize, oriPosition;
     float ghostTimeTotal = 10, shieldTimeTotal = 5, currentGhostCd, currentShieldCd;
-    float shieldTime = 2, ghostTime = 4;
+    float shieldTime = 2, ghostTime = 4, timeCount = 0;
     bool isShieldOn = false, isSpeedBoost = false;
     void Start()
     {
@@ -33,7 +33,20 @@ public class Skills : MonoBehaviour
             shieldCd.transform.localPosition = new Vector3(shieldCd.transform.localPosition.x, oriPosition.y);
             shieldOn();
         }
+
         skillCountDown();
+
+        if(isSpeedBoost && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
+        {
+            timeCount += Time.deltaTime;
+            if(timeCount > 0.05)
+            {
+                timeCount = 0;
+                GameObject cloud = Instantiate(speedBoost, player.transform.localPosition - new Vector3(0, 0.5f), Quaternion.identity);
+                cloud.SetActive(true);
+                Destroy(cloud, 9 / 24f);
+            }
+        }
     }
     private void ghostOn()
     {
