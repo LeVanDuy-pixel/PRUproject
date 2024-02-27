@@ -1938,6 +1938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 802483519}
   - component: {fileID: 802483518}
+  - component: {fileID: 802483521}
   - component: {fileID: 802483520}
   m_Layer: 0
   m_Name: GameController
@@ -1996,7 +1997,19 @@ MonoBehaviour:
   - {fileID: 1279232474}
   - {fileID: 1484814131}
   - {fileID: 74172930}
-  beatTimes: []
+--- !u!114 &802483521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802483517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6aab449b7404e149ad0801edbb33e54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultBeatTimes: []
 --- !u!1 &833912738
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,15 +17,16 @@ public class GameController : MonoBehaviour
     
     
     private Transform playerTransform;
-    public float[] beatTimes; 
     private int nextBeatIndex = 0;
 
     WaitToStart waitToStart;
-    
+    BeatTimes beatTimes;
+
     void Start()
     {
         waitToStart = FindObjectOfType<WaitToStart>();
-        beatTimes = new float[] {0.2f, 0.41f, 0.65f,0.9f,1.1f,1.37f};
+        beatTimes = FindObjectOfType<BeatTimes>();
+        
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
        
 
@@ -35,7 +36,7 @@ public class GameController : MonoBehaviour
         if(waitToStart.canPlay)
         {
             audioSource.Play();
-            StartCoroutine(SpawnBullets(beatTimes));
+            StartCoroutine(SpawnBullets(beatTimes.resultBeatTimes));
             waitToStart.canPlay = false;
         }
     }
