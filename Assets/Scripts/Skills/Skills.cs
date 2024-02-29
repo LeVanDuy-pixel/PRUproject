@@ -6,16 +6,19 @@ using UnityEngine;
 
 public class Skills : MonoBehaviour
 {
-    public GameObject ghostCd, shieldCd, lightningCd, player, shield, speedBoost, lightArrow;
+    public GameObject ghostCd, shieldCd, lightningCd, teleCd, player, shield, speedBoost, lightArrow, teleEffect;
     Vector2 oriScale, oriSize, oriPosition;
-    float ghostTimeTotal = 8, shieldTimeTotal = 5, lightningTimeTotal = 5, currentGhostCd, currentShieldCd, currentLightningCd;
-    float shieldTime = 2, ghostTime = 4, timeCount = 0;
-    bool isShieldOn = false, isSpeedBoost = false;
+    float ghostTimeTotal = 8, shieldTimeTotal = 5, lightningTimeTotal = 5, teleTimeTotal = 7, currentGhostCd, currentShieldCd, currentLightningCd, currentTeleCd;
+    float shieldTime = 2, ghostTime = 4, timeCount = 0, teleDistance = 3;
+    internal bool isShieldOn = false, isSpeedBoost = false;
+    public AudioSource audioSource;
+    public AudioClip speedBoostClip, shieldOnClip, lightShootClip, teleportClip;
     void Start()
     {
         currentGhostCd = 0;
         currentShieldCd = 0;
         currentLightningCd = 0;
+        currentTeleCd = 0;
 
         oriScale = ghostCd.transform.localScale;
         oriPosition = ghostCd.transform.localPosition;
@@ -25,12 +28,14 @@ public class Skills : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z) && currentGhostCd <= 0)
         {
+            audioSource.PlayOneShot(speedBoostClip);
             currentGhostCd = ghostTimeTotal;
             ghostCd.transform.localPosition = oriPosition;
             ghostOn();
         }
         if (Input.GetKeyDown(KeyCode.X) && currentShieldCd <= 0)
         {
+            audioSource.PlayOneShot(shieldOnClip);
             currentShieldCd = shieldTimeTotal;
             shieldCd.transform.localPosition = new Vector3(shieldCd.transform.localPosition.x, oriPosition.y);
             shieldOn();
@@ -40,6 +45,13 @@ public class Skills : MonoBehaviour
             currentLightningCd = lightningTimeTotal;
             lightningCd.transform.localPosition = new Vector3(lightningCd.transform.localPosition.x, oriPosition.y);
             bulletAim();
+        }
+        if (Input.GetKeyDown(KeyCode.S) && currentTeleCd <= 0)
+        {
+            audioSource.PlayOneShot(teleportClip);
+            currentTeleCd = teleTimeTotal;
+            teleCd.transform.localPosition = new Vector3(teleCd.transform.localPosition.x, oriPosition.y);
+            StartCoroutine("teleport");
         }
 
         skillCountDown();
@@ -56,6 +68,7 @@ public class Skills : MonoBehaviour
             }
         }
     }
+
     private void ghostOn()
     {
         isSpeedBoost = true;
@@ -87,6 +100,7 @@ public class Skills : MonoBehaviour
         }
         else
         {
+            audioSource.PlayOneShot(lightShootClip);
             GameObject[] bulletArray = bullets.OrderBy(x => Vector2.SqrMagnitude(x.transform.localPosition - player.transform.localPosition)).ToArray();
             for (int i = 0; i < bulletArray.Length; i++)
             {
@@ -96,7 +110,20 @@ public class Skills : MonoBehaviour
                 }
             }
         }
+    }
+    IEnumerator teleport()
+    {
+        Vector3 teleDir = player.GetComponent<Rigidbody2D>().velocity.normalized;
+        if (teleDir == Vector3.zero)
+        {
+            teleDir = Vector2.down;
+        }
+        teleEffect.SetActive(true);
+        teleEffect.transform.localPosition = player.transform.localPosition;
+        player.transform.localPosition += teleDistance * teleDir;
 
+        yield return new WaitForSeconds(9f / 24);
+        teleEffect.SetActive(false);
     }
     void skillCountDown()
     {
@@ -112,6 +139,11 @@ public class Skills : MonoBehaviour
         {
             scaleTopDown(ref currentLightningCd, lightningTimeTotal, ref lightningCd);
         }
+        if (currentTeleCd >= 0)
+        {
+            scaleTopDown(ref currentTeleCd, teleTimeTotal, ref teleCd);
+        }
+
     }
     void scaleTopDown(ref float currentTime, float totalTime, ref GameObject cd)
     {
