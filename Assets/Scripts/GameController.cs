@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using MiniJSON;
 using System;
-using UnityEngine.Networking;
+using TMPro;
+
 
 public class GameController : MonoBehaviour
 {
@@ -13,21 +13,33 @@ public class GameController : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform[] bulletSpawnPoint;//
-  
+    
     
     private Transform playerTransform;
-    private float[] beatTimes; 
     private int nextBeatIndex = 0;
-    public string filePath;
+
+    WaitToStart waitToStart;
+    BeatTimes beatTimes;
+    SpawnPoints spawnPoints;
     void Start()
     {
-        
-        beatTimes = new float[] {0.2f, 0.41f, 0.65f,0.9f,1.1f,1.37f};
+        waitToStart = FindObjectOfType<WaitToStart>();
+        beatTimes = FindObjectOfType<BeatTimes>();
+        spawnPoints = FindObjectOfType<SpawnPoints>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(SpawnBullets(beatTimes));
+       
 
     }
-    
+    private void Update()
+    {
+        if(waitToStart.canPlay)
+        {
+            audioSource.Play();
+            StartCoroutine(SpawnBullets(beatTimes.resultBeatTimes));
+            waitToStart.canPlay = false;
+        }
+    }
+
     IEnumerator SpawnBullets(float[] times)
     {
         while (nextBeatIndex < times.Length)
@@ -40,12 +52,28 @@ public class GameController : MonoBehaviour
 
             if (audioSource.time >= times[nextBeatIndex])
             {
-                Transform spawnPoint = bulletSpawnPoint[nextBeatIndex];
+                
+                Transform blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
+                Transform spawnPoint = blspawnPoint;
                 Vector3 direction = playerTransform.position - spawnPoint.position;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 GameObject bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
                 bl.transform.parent = spawnPoint.transform;
+
+                if (nextBeatIndex == 6)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                         blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
+                         spawnPoint = blspawnPoint;
+                         direction = playerTransform.position - spawnPoint.position;
+                         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                         rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                         bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
+                        bl.transform.parent = spawnPoint.transform;
+                    }
+                }
                 nextBeatIndex++;
             }
         }

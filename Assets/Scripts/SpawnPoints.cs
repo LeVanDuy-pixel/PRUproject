@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SpawnPoints : MonoBehaviour
+{
+    [SerializeField] public Transform[] spawnPoints;
+
+    
+    private void Start()
+    {
+        
+    }
+}
