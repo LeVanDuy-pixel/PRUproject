@@ -163,6 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 17336020}
+  - component: {fileID: 17336021}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
@@ -219,6 +220,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &17336021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17336019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e999e61a78f7b2e4e819eb996dd277aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 1170251925}
+  - {fileID: 2003521477}
+  - {fileID: 245275193}
+  - {fileID: 1688481853}
+  - {fileID: 408950733}
+  - {fileID: 1132642666}
+  - {fileID: 425929607}
+  - {fileID: 1279232474}
+  - {fileID: 1484814131}
+  - {fileID: 74172930}
+  - {fileID: 432367586}
+  - {fileID: 836895721}
+  - {fileID: 630337059}
+  - {fileID: 1075744058}
+  - {fileID: 90549593}
+  - {fileID: 1531573670}
+  - {fileID: 503255771}
+  - {fileID: 755390118}
+  - {fileID: 433167898}
+  - {fileID: 940389257}
+  - {fileID: 180728072}
+  - {fileID: 367619461}
+  - {fileID: 14489719}
+  - {fileID: 1369307799}
+  - {fileID: 1987519532}
+  - {fileID: 682418733}
+  - {fileID: 1079661032}
+  - {fileID: 2116897329}
+  - {fileID: 833912739}
+  - {fileID: 2118534715}
+  - {fileID: 1820456317}
+  - {fileID: 2020167191}
+  - {fileID: 1790080983}
+  - {fileID: 646552365}
 --- !u!1 &22810979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,12 +2039,13 @@ MonoBehaviour:
   audioSource: {fileID: 519420034}
   bulletPrefab: {fileID: 1198602577551062780, guid: b242c203a2a13014f90eae37149363ea, type: 3}
   bulletSpawnPoint:
-  - {fileID: 408950733}
   - {fileID: 1132642666}
   - {fileID: 425929607}
   - {fileID: 1279232474}
   - {fileID: 1484814131}
   - {fileID: 74172930}
+  - {fileID: 1688481853}
+  - {fileID: 245275193}
 --- !u!114 &802483521
 MonoBehaviour:
   m_ObjectHideFlags: 0

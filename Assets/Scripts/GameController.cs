@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using MiniJSON;
 using System;
-using UnityEngine.Networking;
 using TMPro;
+
 
 public class GameController : MonoBehaviour
 {
@@ -21,12 +20,12 @@ public class GameController : MonoBehaviour
 
     WaitToStart waitToStart;
     BeatTimes beatTimes;
-
+    SpawnPoints spawnPoints;
     void Start()
     {
         waitToStart = FindObjectOfType<WaitToStart>();
         beatTimes = FindObjectOfType<BeatTimes>();
-        
+        spawnPoints = FindObjectOfType<SpawnPoints>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
        
 
@@ -53,12 +52,28 @@ public class GameController : MonoBehaviour
 
             if (audioSource.time >= times[nextBeatIndex])
             {
-                Transform spawnPoint = bulletSpawnPoint[nextBeatIndex];
+                
+                Transform blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
+                Transform spawnPoint = blspawnPoint;
                 Vector3 direction = playerTransform.position - spawnPoint.position;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 GameObject bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
                 bl.transform.parent = spawnPoint.transform;
+
+                if (nextBeatIndex == 6)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                         blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
+                         spawnPoint = blspawnPoint;
+                         direction = playerTransform.position - spawnPoint.position;
+                         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                         rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                         bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
+                        bl.transform.parent = spawnPoint.transform;
+                    }
+                }
                 nextBeatIndex++;
             }
         }

@@ -26,6 +26,6 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        rb.AddForce(direction * 10);
+        rb.AddForce(direction * 9);
     }
 }
