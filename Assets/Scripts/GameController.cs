@@ -1,46 +1,30 @@
-using Assets.Scripts;
+﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using System;
-using TMPro;
-
 
 public class GameController : MonoBehaviour
 {
-    
-    [SerializeField] AudioSource audioSource;
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform[] bulletSpawnPoint;//
-    
-    
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform[] bulletSpawnPoints;
+
+    public float[] beatTimes = new float[] { 0.2f, 0.41f, 0.65f, 0.9f, 1.1f, 1.37f }; // Mảng beatTimes
+
     private Transform playerTransform;
     private int nextBeatIndex = 0;
 
-    WaitToStart waitToStart;
-    BeatTimes beatTimes;
-    SpawnPoints spawnPoints;
-    void Start()
+    private void Start()
     {
-        waitToStart = FindObjectOfType<WaitToStart>();
-        beatTimes = FindObjectOfType<BeatTimes>();
-        spawnPoints = FindObjectOfType<SpawnPoints>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-       
-
-    }
-    private void Update()
-    {
-        if(waitToStart.canPlay)
+        StartCoroutine(SpawnBullets(beatTimes));
+        Debug.Log("Giá trị của beatTimes:");
+        foreach (float beatTime in beatTimes)
         {
-            audioSource.Play();
-            StartCoroutine(SpawnBullets(beatTimes.resultBeatTimes));
-            waitToStart.canPlay = false;
+            Debug.Log(beatTime);
         }
     }
 
-    IEnumerator SpawnBullets(float[] times)
+
+    private IEnumerator SpawnBullets(float[] times)
     {
         while (nextBeatIndex < times.Length)
         {
@@ -49,36 +33,16 @@ public class GameController : MonoBehaviour
                 yield return null;
             }
 
-
             if (audioSource.time >= times[nextBeatIndex])
             {
-                
-                Transform blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
-                Transform spawnPoint = blspawnPoint;
+                Transform spawnPoint = bulletSpawnPoints[nextBeatIndex];
                 Vector3 direction = playerTransform.position - spawnPoint.position;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                GameObject bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
-                bl.transform.parent = spawnPoint.transform;
-
-                if (nextBeatIndex == 6)
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                         blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
-                         spawnPoint = blspawnPoint;
-                         direction = playerTransform.position - spawnPoint.position;
-                         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                         rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                         bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
-                        bl.transform.parent = spawnPoint.transform;
-                    }
-                }
+                GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, rotation);
+                bullet.transform.parent = spawnPoint.transform;
                 nextBeatIndex++;
             }
         }
-
     }
-   
-    
 }
