@@ -7,50 +7,55 @@ using UnityEngine;
 public class Skills : MonoBehaviour
 {
     public GameObject ghostCd, shieldCd, lightningCd, teleCd, player, shield, speedBoost, lightArrow, teleEffect;
-    Vector2 oriScale, oriSize, oriPosition;
-    float ghostTimeTotal = 8, shieldTimeTotal = 5, lightningTimeTotal = 5, teleTimeTotal = 7, currentGhostCd, currentShieldCd, currentLightningCd, currentTeleCd;
-    float shieldTime = 2, ghostTime = 4, timeCount = 0, teleDistance = 3;
-    internal bool isShieldOn = false, isSpeedBoost = false;
     public AudioSource audioSource;
     public AudioClip speedBoostClip, shieldOnClip, lightShootClip, teleportClip;
+
+    float ghostTimeTotal = 5, shieldTimeTotal = 3, lightningTimeTotal = 3, teleTimeTotal = 2;
+    float currentGhostCd, currentShieldCd, currentLightningCd, currentTeleCd;
+    float shieldTime = 2, ghostTime = 4, timeCount = 0, teleDistance = 3;
+    int lightningTurn = 5;
+    public float t = 1;
+    internal bool isShieldOn = false, isSpeedBoost = false;
     void Start()
     {
+
         currentGhostCd = 0;
         currentShieldCd = 0;
         currentLightningCd = 0;
         currentTeleCd = 0;
 
-        oriScale = ghostCd.transform.localScale;
-        oriPosition = ghostCd.transform.localPosition;
-        oriSize.y = ghostCd.GetComponent<SpriteRenderer>().size.y * oriScale.y;
+        ghostCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / ghostTimeTotal;
+        shieldCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / shieldTimeTotal;
+        lightningCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / lightningTimeTotal;
+        teleCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / teleTimeTotal;
     }
     void Update()
     {
+        Time.timeScale = t;
         if (Input.GetKeyDown(KeyCode.Z) && currentGhostCd <= 0)
         {
             audioSource.PlayOneShot(speedBoostClip);
             currentGhostCd = ghostTimeTotal;
-            ghostCd.transform.localPosition = oriPosition;
+            ghostCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
             ghostOn();
         }
         if (Input.GetKeyDown(KeyCode.X) && currentShieldCd <= 0)
         {
             audioSource.PlayOneShot(shieldOnClip);
             currentShieldCd = shieldTimeTotal;
-            shieldCd.transform.localPosition = new Vector3(shieldCd.transform.localPosition.x, oriPosition.y);
+            shieldCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
             shieldOn();
         }
         if (Input.GetKeyDown(KeyCode.C) && currentLightningCd <= 0)
         {
-            currentLightningCd = lightningTimeTotal;
-            lightningCd.transform.localPosition = new Vector3(lightningCd.transform.localPosition.x, oriPosition.y);
+            lightningTurn = 5;
             bulletAim();
         }
         if (Input.GetKeyDown(KeyCode.S) && currentTeleCd <= 0)
         {
             audioSource.PlayOneShot(teleportClip);
             currentTeleCd = teleTimeTotal;
-            teleCd.transform.localPosition = new Vector3(teleCd.transform.localPosition.x, oriPosition.y);
+            teleCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
             StartCoroutine("teleport");
         }
 
@@ -94,21 +99,27 @@ public class Skills : MonoBehaviour
     void bulletAim()
     {
         List<GameObject> bullets = GameObject.FindGameObjectsWithTag("Bullet").ToList();
-        if (bullets.Count == 0)
-        {
-            currentLightningCd = 0;
-        }
-        else
+        if (bullets.Count > 0)
         {
             audioSource.PlayOneShot(lightShootClip);
-            GameObject[] bulletArray = bullets.OrderBy(x => Vector2.SqrMagnitude(x.transform.localPosition - player.transform.localPosition)).ToArray();
+            if (lightningTurn == 5)
+            {
+                currentLightningCd = lightningTimeTotal;
+                lightningCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
+            }
+            lightningTurn--;
+            GameObject[] bulletArray = bullets.OrderBy(x => Vector2.SqrMagnitude(x.transform.position - player.transform.position)).ToArray();
             for (int i = 0; i < bulletArray.Length; i++)
             {
                 if (i < 3)
                 {
-                    Instantiate(lightArrow, player.transform.localPosition, Quaternion.identity).GetComponent<LightArrow>().aim(bulletArray[i]);
+                    Instantiate(lightArrow, player.transform.position, Quaternion.identity).GetComponent<LightArrow>().aim(bulletArray[i]);
                 }
             }
+        }
+        if(lightningTurn > 0)
+        {
+            Invoke("bulletAim", 0.5f);
         }
     }
     IEnumerator teleport()
@@ -127,28 +138,21 @@ public class Skills : MonoBehaviour
     }
     void skillCountDown()
     {
-        if (currentGhostCd >= 0)
+        if (currentGhostCd > 0)
         {
-            scaleTopDown(ref currentGhostCd, ghostTimeTotal, ref ghostCd);
+            currentGhostCd -= Time.deltaTime;
         }
-        if (currentShieldCd >= 0)
+        if (currentShieldCd > 0)
         {
-            scaleTopDown(ref currentShieldCd, shieldTimeTotal, ref shieldCd);
+            currentShieldCd -= Time.deltaTime;
         }
-        if (currentLightningCd >= 0)
+        if (currentLightningCd > 0)
         {
-            scaleTopDown(ref currentLightningCd, lightningTimeTotal, ref lightningCd);
+            currentLightningCd -= Time.deltaTime;
         }
-        if (currentTeleCd >= 0)
+        if (currentTeleCd > 0)
         {
-            scaleTopDown(ref currentTeleCd, teleTimeTotal, ref teleCd);
+            currentTeleCd -= Time.deltaTime;
         }
-
-    }
-    void scaleTopDown(ref float currentTime, float totalTime, ref GameObject cd)
-    {
-        cd.transform.localScale = new Vector2(oriScale.x, oriScale.y * currentTime / totalTime);
-        cd.transform.localPosition -= new Vector3(0, oriSize.y * Time.deltaTime / totalTime / 2);
-        currentTime -= Time.deltaTime;
     }
 }

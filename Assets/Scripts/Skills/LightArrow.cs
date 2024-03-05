@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Global;
 using UnityEngine;
 
 public class LightArrow : MonoBehaviour
 {
     Vector2 vectorMove = Vector2.zero;
-    GameObject targetBullet = null;
+    public GameObject targetBullet = null, targetLock;
+    float moveSpeed = 20f;
     void Start()
     {
     }
@@ -14,10 +14,10 @@ public class LightArrow : MonoBehaviour
     {
         if (targetBullet != null)
         {
-            vectorMove = targetBullet.transform.localPosition - transform.localPosition;
-            if (Vector2.SqrMagnitude(vectorMove) > 0.1)
+            vectorMove = targetBullet.transform.position - transform.position;
+            if (Vector2.SqrMagnitude(vectorMove) > 0.5)
             {
-                GetComponent<Rigidbody2D>().velocity = vectorMove.normalized * 16f;
+                GetComponent<Rigidbody2D>().velocity = vectorMove.normalized * moveSpeed;
                 float angle = -Vector2.SignedAngle(vectorMove, Vector2.right);
                 angle = (angle < 0) ? 360 + angle : angle;
                 transform.localRotation = Quaternion.Euler(0, 0, angle - 40);
@@ -28,10 +28,15 @@ public class LightArrow : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        if (Vector2.SqrMagnitude(transform.position) > 136)
+        {
+            Destroy(gameObject);
+        }
     }
     public void aim(GameObject bullet)
     {
         gameObject.SetActive(true);
         targetBullet = bullet;
+        Instantiate(targetLock, bullet.transform.position + new Vector3(0.3f, 0), Quaternion.identity).transform.parent = bullet.transform;
     }
 }
