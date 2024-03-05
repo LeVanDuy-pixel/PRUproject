@@ -72,13 +72,13 @@ public class Skills : MonoBehaviour
     private void ghostOn()
     {
         isSpeedBoost = true;
-        player.GetComponent<PlayerMovement>().moveSpeed *= 2;
+        player.GetComponent<PlayerMovement>().moveSpeed *= 1.5f;
         Invoke("ghostOff", ghostTime);
     }
     private void ghostOff()
     {
         isSpeedBoost = false;
-        player.GetComponent<PlayerMovement>().moveSpeed /= 2;
+        player.GetComponent<PlayerMovement>().moveSpeed /= 1.5f;
     }
     private void shieldOn()
     {
