@@ -10,5 +10,6 @@ namespace Assets.Scripts.Global
     internal class GlobalVariables : MonoBehaviour
     {
         //public static GameObject targetLock = GameObject.Find("Target Lock");
+        public static GameObject main = GameObject.Find("Main Camera");
     }
 }

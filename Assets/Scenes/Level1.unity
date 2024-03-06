@@ -778,6 +778,7 @@ RectTransform:
   - {fileID: 22810980}
   - {fileID: 1135930488}
   - {fileID: 1218817249}
+  - {fileID: 1616510513}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1712,6 +1713,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1908,6 +1910,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eedf4fe82033127459e6edcb816a1cea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomInTime: 0.1
+  zoomOutTime: 0.1
+  minZoom: 4.8
+  maxZoom: 5
+  zoomSpeed: 30
+  isBeat: 0
 --- !u!1 &630337058
 GameObject:
   m_ObjectHideFlags: 0
@@ -3639,16 +3659,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616510512}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0.04371643}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -108, z: -9715.278}
+  m_LocalScale: {x: 108, y: 108, z: 108}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 974871855}
   - {fileID: 809636945}
   - {fileID: 654776133}
   - {fileID: 681924184}
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 330462496}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1616510514
 MonoBehaviour:
@@ -6298,7 +6318,7 @@ Transform:
   - {fileID: 979813485}
   - {fileID: 768683812}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950913481
 GameObject:
@@ -6900,6 +6920,10 @@ PrefabInstance:
     - target: {fileID: 1198602577551062782, guid: b242c203a2a13014f90eae37149363ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2528346536457302240, guid: b242c203a2a13014f90eae37149363ea, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b242c203a2a13014f90eae37149363ea, type: 3}

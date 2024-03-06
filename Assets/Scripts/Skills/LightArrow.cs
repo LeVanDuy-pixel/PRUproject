@@ -37,6 +37,6 @@ public class LightArrow : MonoBehaviour
     {
         gameObject.SetActive(true);
         targetBullet = bullet;
-        Instantiate(targetLock, bullet.transform.position + new Vector3(0.3f, 0), Quaternion.identity).transform.parent = bullet.transform;
+        Instantiate(targetLock, bullet.transform.position, Quaternion.identity).transform.parent = bullet.transform;
     }
 }

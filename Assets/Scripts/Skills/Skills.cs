@@ -1,3 +1,4 @@
+using Assets.Scripts.Global;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ public class Skills : MonoBehaviour
             currentShieldCd = shieldTimeTotal;
             shieldCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
             shieldOn();
+            GlobalVariables.main.GetComponent<CameraZoomByTime>().beatIt(4.8f, 5, 2f);
         }
         if (Input.GetKeyDown(KeyCode.C) && currentLightningCd <= 0)
         {
@@ -64,10 +66,10 @@ public class Skills : MonoBehaviour
         if (isSpeedBoost && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
         {
             timeCount += Time.deltaTime;
-            if (timeCount > 0.05)
+            if (timeCount > 0.1)
             {
                 timeCount = 0;
-                GameObject cloud = Instantiate(speedBoost, player.transform.localPosition - new Vector3(0, 0.5f), Quaternion.identity);
+                GameObject cloud = Instantiate(speedBoost, player.transform.position - new Vector3(0, 0.2f), Quaternion.identity);
                 cloud.SetActive(true);
                 Destroy(cloud, 9 / 24f);
             }
