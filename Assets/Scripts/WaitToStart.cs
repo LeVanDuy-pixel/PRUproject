@@ -25,8 +25,6 @@ public class WaitToStart : MonoBehaviour
                 stopCount = true;
                 panel.SetActive(false);
             }
-            
-            
                 waitTime.text = ((int)count).ToString();
             
             count -= Time.deltaTime;

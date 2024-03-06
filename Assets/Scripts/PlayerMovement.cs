@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,16 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         ProcessInputs();
+        Vector2 fixPosition = transform.localPosition;
+        if (MathF.Abs(fixPosition.y) > 4.8)
+        {
+            fixPosition.y = 4.8f * ((fixPosition.y < 0) ? -1 : 1);
+        }
+        if (MathF.Abs(fixPosition.x) > 9)
+        {
+            fixPosition.x = 8.7f * ((fixPosition.x < 0) ? -1 : 1);
+        }
+        transform.localPosition = fixPosition;
     }
     void FixedUpdate()
     {

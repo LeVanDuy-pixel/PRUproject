@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -11,6 +12,7 @@ public class Bullet : MonoBehaviour
 
     private float destroyTime;
     private Vector3 direction;
+    public float speed;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -26,6 +28,6 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        rb.AddForce(direction * 9);
+        rb.AddForce(direction * speed);
     }
 }

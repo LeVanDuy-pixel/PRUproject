@@ -17,15 +17,18 @@ public class GameController : MonoBehaviour
     
     private Transform playerTransform;
     private int nextBeatIndex = 0;
+    public bool isFinish = false;
 
     WaitToStart waitToStart;
     BeatTimes beatTimes;
     SpawnPoints spawnPoints;
+    Timer timer;
     void Start()
     {
         waitToStart = FindObjectOfType<WaitToStart>();
         beatTimes = FindObjectOfType<BeatTimes>();
         spawnPoints = FindObjectOfType<SpawnPoints>();
+        timer = FindObjectOfType<Timer>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
        
 
@@ -53,19 +56,29 @@ public class GameController : MonoBehaviour
             if (audioSource.time >= times[nextBeatIndex])
             {
                 
-                Transform blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
+                Transform blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 34)];
                 Transform spawnPoint = blspawnPoint;
                 Vector3 direction = playerTransform.position - spawnPoint.position;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 GameObject bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
                 bl.transform.parent = spawnPoint.transform;
-
-                if (nextBeatIndex == 6)
+                if (timer.num <= 14)
                 {
-                    for (int i = 0; i < 4; i++)
+                    blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 34)];
+                    spawnPoint = blspawnPoint;
+                    direction = playerTransform.position - spawnPoint.position;
+                    angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
+                    bl.transform.parent = spawnPoint.transform;
+                }
+
+                if (nextBeatIndex == 2|| nextBeatIndex == 5||nextBeatIndex==8 || nextBeatIndex==12)
+                {
+                    for (int i = 0; i < 3; i++)
                     {
-                         blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 33)];
+                         blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 34)];
                          spawnPoint = blspawnPoint;
                          direction = playerTransform.position - spawnPoint.position;
                          angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
