@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_gameController.isFinish)
+        if (!_gameController.isFinish && !_gameController.isOver)
         {
             if(num <= 53 && harder==0)
             {

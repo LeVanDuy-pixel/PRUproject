@@ -7,11 +7,14 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
 
+    GameController controller;
+
     private Rigidbody2D rb;
     private Vector2 moveDirector;
     private Animator anim;
     void Start()
     {
+        controller = FindObjectOfType<GameController>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
@@ -19,7 +22,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessInputs();
+
+        if(!controller.isOver) ProcessInputs();
+        
         Vector2 fixPosition = transform.localPosition;
         if (MathF.Abs(fixPosition.y) > 4.8)
         {
