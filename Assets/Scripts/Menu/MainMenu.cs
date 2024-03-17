@@ -10,4 +10,10 @@ public class MainMenu : MonoBehaviour
         string levelName= "Level" + levelId;
         SceneManager.LoadScene(levelName);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }
