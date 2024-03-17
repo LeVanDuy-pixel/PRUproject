@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -9,11 +10,16 @@ public class Bullet : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] ParticleSystem effect;
 
+    GameController gameController;
+    Skills skills;
     private float destroyTime;
     private Vector3 direction;
+    public float speed;
     void Start()
     {
+        skills = FindObjectOfType<Skills>();
         player = GameObject.FindGameObjectWithTag("Player");
+        gameController = FindObjectOfType<GameController>();
         direction = (player.transform.position - this.transform.position).normalized;
     }
 
@@ -26,6 +32,19 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        rb.AddForce(direction * 10);
+        rb.AddForce(direction * speed);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Player" && !skills.isShieldOn)
+        {
+            gameController.GameOver();
+            collision.gameObject.SetActive(false);
+        }
+        if(collision.gameObject.tag == "Player" && skills.isShieldOn)
+        {
+            Destroy(gameObject);
+        }
     }
 }

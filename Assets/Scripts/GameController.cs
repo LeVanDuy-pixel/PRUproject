@@ -3,34 +3,57 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using MiniJSON;
 using System;
-using UnityEngine.Networking;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     
     [SerializeField] AudioSource audioSource;
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform[] bulletSpawnPoint;//
-  
+    [SerializeField] GameObject gameOverPanel;
+    [SerializeField] GameObject gameFinishPanel;
+    
     
     private Transform playerTransform;
-    private float[] beatTimes; 
     private int nextBeatIndex = 0;
-    public string filePath;
+    public bool isFinish = false;
+    public bool isOver = false;
+
+    WaitToStart waitToStart;
+    BeatTimes beatTimes;
+    SpawnPoints spawnPoints;
+    Timer timer;
+    CameraZoomByTime _zoomCamera;
     void Start()
     {
-        
-        beatTimes = new float[] {0.2f, 0.41f, 0.65f,0.9f,1.1f,1.37f};
+        waitToStart = FindObjectOfType<WaitToStart>();
+        beatTimes = FindObjectOfType<BeatTimes>();
+        spawnPoints = FindObjectOfType<SpawnPoints>();
+        timer = FindObjectOfType<Timer>();
+        _zoomCamera = FindObjectOfType<CameraZoomByTime>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(SpawnBullets(beatTimes));
+       
 
     }
-    
+    private void Update()
+    {
+        if (isFinish)
+        {
+            gameFinishPanel.SetActive(true);
+        }
+        if(waitToStart.canPlay)
+        {
+            audioSource.Play();
+            StartCoroutine(SpawnBullets(beatTimes.resultBeatTimes));
+            waitToStart.canPlay = false;
+        }
+    }
+
     IEnumerator SpawnBullets(float[] times)
     {
-        while (nextBeatIndex < times.Length)
+        while (nextBeatIndex < times.Length && !isOver)
         {
             while (audioSource.isPlaying && audioSource.time < times[nextBeatIndex])
             {
@@ -40,17 +63,52 @@ public class GameController : MonoBehaviour
 
             if (audioSource.time >= times[nextBeatIndex])
             {
-                Transform spawnPoint = bulletSpawnPoint[nextBeatIndex];
-                Vector3 direction = playerTransform.position - spawnPoint.position;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                GameObject bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
-                bl.transform.parent = spawnPoint.transform;
+                SpawnBullet();
+                
+                if (timer.num <= 14)
+                {
+                    SpawnBullet();
+                }
+
+                if (nextBeatIndex == 2|| nextBeatIndex == 5||nextBeatIndex==8 || nextBeatIndex==12 || nextBeatIndex == 75)
+                {
+                    _zoomCamera.beatIt(4.8f, 5f, 0.6f);
+                    
+                    for (int i = 0; i < 3; i++) 
+                    {
+                        SpawnBullet();
+                    }
+                }
                 nextBeatIndex++;
             }
         }
 
     }
+    private void SpawnBullet()
+    {
+        Transform blspawnPoint = spawnPoints.spawnPoints[UnityEngine.Random.Range(0, 34)];
+        Transform spawnPoint = blspawnPoint;
+        Vector3 direction = playerTransform.position - spawnPoint.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        GameObject bl = Instantiate(bulletPrefab, spawnPoint.position, rotation);
+        bl.transform.parent = spawnPoint.transform;
+    }
+    public void GameOver()
+    {
+        isOver = true;
+        audioSource.Stop();
+        gameOverPanel.SetActive(true);
+    }
    
+   
+    public void Replay()
+    {
+        SceneManager.LoadScene("Level1");
+    }
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
     
 }
