@@ -11,7 +11,7 @@ public class Skills : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip speedBoostClip, shieldOnClip, lightShootClip, teleportClip;
 
-    float ghostTimeTotal = 5, shieldTimeTotal = 3, lightningTimeTotal = 3, teleTimeTotal = 2;
+    float ghostTimeTotal = 7, shieldTimeTotal = 5, lightningTimeTotal = 5, teleTimeTotal = 4;
     float currentGhostCd, currentShieldCd, currentLightningCd, currentTeleCd;
     float shieldTime = 2, ghostTime = 4, timeCount = 0, teleDistance = 3;
     int lightningTurn = 5;
@@ -19,34 +19,31 @@ public class Skills : MonoBehaviour
     internal bool isShieldOn = false, isSpeedBoost = false;
     void Start()
     {
-
         currentGhostCd = 0;
         currentShieldCd = 0;
         currentLightningCd = 0;
         currentTeleCd = 0;
 
-        ghostCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / ghostTimeTotal;
-        shieldCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / shieldTimeTotal;
-        lightningCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / lightningTimeTotal;
-        teleCd.GetComponent<Animator>().GetComponent<Animator>().speed = 1 / teleTimeTotal;
+        ghostCd.GetComponent<Animator>().speed = 1 / ghostTimeTotal;
+        shieldCd.GetComponent<Animator>().speed = 1 / shieldTimeTotal;
+        lightningCd.GetComponent<Animator>().speed = 1 / lightningTimeTotal;
+        teleCd.GetComponent<Animator>().speed = 1 / teleTimeTotal;
     }
     void Update()
     {
-        Time.timeScale = t;
         if (Input.GetKeyDown(KeyCode.Z) && currentGhostCd <= 0)
         {
             audioSource.PlayOneShot(speedBoostClip);
             currentGhostCd = ghostTimeTotal;
-            ghostCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
+            ghostCd.GetComponent<Animator>().Play("skillCd", 0, 0);
             ghostOn();
         }
         if (Input.GetKeyDown(KeyCode.X) && currentShieldCd <= 0)
         {
             audioSource.PlayOneShot(shieldOnClip);
             currentShieldCd = shieldTimeTotal;
-            shieldCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
+            shieldCd.GetComponent<Animator>().Play("skillCd", 0, 0);
             shieldOn();
-            GlobalVariables.main.GetComponent<CameraZoomByTime>().beatIt(4.8f, 5, 2f);
         }
         if (Input.GetKeyDown(KeyCode.C) && currentLightningCd <= 0)
         {
@@ -57,7 +54,7 @@ public class Skills : MonoBehaviour
         {
             audioSource.PlayOneShot(teleportClip);
             currentTeleCd = teleTimeTotal;
-            teleCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
+            teleCd.GetComponent<Animator>().Play("skillCd", 0, 0);
             StartCoroutine("teleport");
         }
 
@@ -107,7 +104,7 @@ public class Skills : MonoBehaviour
             if (lightningTurn == 5)
             {
                 currentLightningCd = lightningTimeTotal;
-                lightningCd.GetComponent<Animator>().GetComponent<Animator>().Play("skillCd", 0, 0);
+                lightningCd.GetComponent<Animator>().Play("skillCd", 0, 0);
             }
             lightningTurn--;
             GameObject[] bulletArray = bullets.OrderBy(x => Vector2.SqrMagnitude(x.transform.position - player.transform.position)).ToArray();
